@@ -1,9 +1,18 @@
 import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import LoginPage from './pages/LoginPage'
+import ProfilePage from './pages/ProfilePage'
 
 const App = () => {
   return (
-    <div>
-      <h1 className='text-7xl text-amber-300 flex justify-center bg-cyan-300'>HEllo my name is Prathum Bhangadia</h1>
+    <div className="bg-[url('./src/assets/bgImage.svg')] bg-contain bg-center">
+      <Routes>
+        {/* Adding Routes */}
+        <Route path='/' element = {<HomePage/>}/>
+        <Route path='/Login' element = {<LoginPage />} />
+        <Route path='/Profile' element = { <ProfilePage/>} />
+      </Routes>
     </div>
   )
 }
