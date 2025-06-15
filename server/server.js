@@ -19,13 +19,23 @@ export const io = new Server(server , {
 export const userSocketMap = {}  // {userId: socketId}
 
 //Socket.io connection handler
-io.on("connection" , (socket)=>{
-    const userId = socket.handshake.query.userId;
-    console.log("User Connected" , userId);
+io.on("connection", (socket) => {
+  const userId = socket.handshake.query.userId;
+  console.log("User Connected", userId);
 
-    if(userId) userSocketMap[userId] = socket.id;
-    
-})
+  if (userId) userSocketMap[userId] = socket.id;
+
+  // Emit online users to all connected users
+  io.emit("getOnlineUsers", Object.keys(userSocketMap));
+
+  // ✅ Correct event listener
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", userId);
+    delete userSocketMap[userId];
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+  });
+});
+
 
 //Middleware
 app.use(express.json({limit: "4mb"}));

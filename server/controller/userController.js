@@ -1,4 +1,4 @@
-import { generateToke, generateToken } from "../lib/utils.js";
+import { generateToken } from "../lib/utils.js";
 import User from "../models/User.js";
 import brcypt from "bcryptjs"
 import cloudinary from "../lib/cloudinary.js";
@@ -8,18 +8,18 @@ export const signup = async (req , res) => {
     const {fullName , email , password , bio} = req.body;
 
     try {
-        if(!fullName || !email || !password || !bio){
-            return res.json({success: false , message: "Missing Details"})
-        }
+        // if(!fullName || !email || !password || !bio){
+        //     return res.json({success: false , message: "Missing Details"})
+        // }
 
-        const user = await User.find({email});
+        const user = await User.findOne({email});
 
         if(user){
             return res.json({success: false , message: "Already Account Exists"})
         }
 
         const salt = await brcypt.genSalt(10)
-        const hashedPassword = await brcrypt.hassh(password , salt)
+        const hashedPassword = await brcypt.hash(password , salt)
 
         const newUser = await User.create({
             fullName , email , password: hashedPassword , bio
