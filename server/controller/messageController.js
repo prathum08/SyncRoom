@@ -8,7 +8,7 @@ import {io , userSocketMap} from "../server.js"
 export const getUserForSidebar = async(req , res) =>{
     try {
         const userId = req.user._id
-        const filteredUser = await User.find({id:{$ne: userId}}).select("-password")
+        const filteredUser = await User.find({_id:{$ne: userId}}).select("-password")
 
         //Count number of msg not seen
         const unseenMessages = {}
@@ -43,7 +43,7 @@ export const getMessages = async (req,res) =>{
 
         await Message.updateMany({senderId: selectedUserId ,receiverId: myId}, {seen: true});
 
-        resjson({success: true , messages})
+        res.json({success: true , messages})
     } catch (error) {
         console.log(error.message)
         res.json({success: false , message: error.message})
@@ -68,7 +68,7 @@ export const sendMessage = async(req , res) =>{
     try {
         const {text , image} = req.body
         const receiverId = req.params.id;
-        const senderId = req.user.id;
+        const senderId = req.user._id;
 
         let imageUrl;
         if(image){

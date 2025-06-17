@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) =>{
     
     const [token , setToken] = useState(localStorage.getItem("token"));
     const [authUser , setAuthUser] = useState(null);
-    const [onlineUser , setOnlineUsers] = useState([]);
+    const [onlineUsers , setOnlineUsers] = useState([]);
     const [socket , setSocket] = useState(null);
 
 
@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }) =>{
     const value = {
         axios,
         authUser,
-        onlineUser,
+        onlineUsers,
         socket,
         login,
         logout,
